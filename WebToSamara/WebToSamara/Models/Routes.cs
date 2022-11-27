@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using System.Xml;
-using toSamara.Model;
-using Route = toSamara.Model.Route;
 
-namespace webToSamara.Models
+namespace WebToSamara.Models
 {
     public class Routes
     {

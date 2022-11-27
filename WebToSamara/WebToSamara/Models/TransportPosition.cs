@@ -1,4 +1,4 @@
-﻿namespace webToSamara.Models
+﻿namespace WebToSamara.Models
 {
     public class TransportPosition
     {

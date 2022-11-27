@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace toSamara.Model
+namespace WebToSamara.Models
 {
     public class Stops
     {

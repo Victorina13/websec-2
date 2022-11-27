@@ -1,4 +1,4 @@
-﻿namespace toSamara.Model
+﻿namespace WebToSamara.Models
 {
     public class Transport
     {

@@ -57,13 +57,13 @@ namespace WebToSamara.Controllers
         [Route("Main/Route/{KR_ID}&{HULLNO}")]
         public IActionResult Route()
         {
-            throw new NotImplementedException();
+            return View("Views/Main/Route.cshtml");
         }
 
         [Route("Main/GetStops")]
         public string GetStops()
         {
-            throw new NotImplementedException();
+            return JsonConvert.SerializeObject(new { isSuccess = true, data = StopsObj.StopsList });
         }
 
         [Route("Main/GetSchedule/{KS_ID}")]
@@ -93,7 +93,7 @@ namespace WebToSamara.Controllers
         [Route("Main/GetRoute/{KR_ID}")]
         public string GetRoute(long KR_ID)
         {
-            return JsonConvert.SerializeObject(RoutesObj.RoutesList.FirstOrDefault(x => x.KR_ID == KR_ID));
+            return JsonConvert.SerializeObject(new { isSuccess = true, data = RoutesObj.RoutesList.FirstOrDefault(x => x.KR_ID == KR_ID) });
         }
 
         [Route("Main/GetTransportPosition/{HULLNO}")]
@@ -119,11 +119,6 @@ namespace WebToSamara.Controllers
         public IActionResult Index()
         {
             return View("Views/Main/Index.cshtml");
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
     }
 }

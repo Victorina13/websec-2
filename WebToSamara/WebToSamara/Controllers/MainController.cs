@@ -92,7 +92,7 @@ namespace WebToSamara.Controllers
         [Route("Main/GetRoute/{KR_ID}")]
         public string GetRoute(long KR_ID)
         {
-            throw new NotImplementedException();
+            return JsonConvert.SerializeObject(RoutesObj.RoutesList.FirstOrDefault(x => x.KR_ID == KR_ID));
         }
 
         [Route("Main/GetTransportPosition/{HULLNO}")]

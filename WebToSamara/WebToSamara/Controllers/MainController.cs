@@ -54,7 +54,6 @@ namespace WebToSamara.Controllers
             return new FormUrlEncodedContent(body);
         }
 
-        [Route("Main/Route/{KR_ID}&{HULLNO}")]
         public IActionResult Route()
         {
             return View("Views/Main/Route.cshtml");

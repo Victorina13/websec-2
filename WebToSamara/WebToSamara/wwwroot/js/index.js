@@ -71,7 +71,7 @@ function initSchedule(data) {
     for (let i = 0; i < data.length; i++) {
         htmlForDataList += `<tr>`;
         htmlForDataList += `<td>${data[i].Time}</td>`;
-        hrefToRoute = `<a href="https://localhost:7133/Main/Route/${data[i].KR_ID}&${data[i].HullNo}">${data[i].Number} ${data[i].Type}</a>`;
+        hrefToRoute = `<a href="/Main/Route/${data[i].KR_ID}&${data[i].HullNo}">${data[i].Number} ${data[i].Type}</a>`;
         htmlForDataList += `<td>${hrefToRoute}</br><font size="1">${data[i].ModelTitle} ${data[i].StateNumber}</font></td>`;
         htmlForDataList += `<td>${data[i].RemainingLength}м до ${data[i].NextStopName}</td>`;
         htmlForDataList += `</tr>`;

@@ -10,7 +10,7 @@ namespace WebToSamara.Controllers
 {
     public class MainController : Controller
     {
-        private List<string> _methods = new List<string>() { "getFirstArrivalToStop", "getRouteSchedule", "getTransportPosition" };
+        private List<string> _methods { get; } = new() { "getFirstArrivalToStop", "getRouteSchedule", "getTransportPosition" };
         
         public Stops StopsObj { get; set; }
         

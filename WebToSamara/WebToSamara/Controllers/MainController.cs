@@ -72,8 +72,9 @@ namespace WebToSamara.Controllers
             var client = new HttpClient();
 
             var response = client.PostAsync(
-                            Configuration.RequestUrl,
-                            GetRequestString(_methods[0], KS_ID.ToString(), string.Empty, string.Empty)).Result;
+                                        Configuration.RequestUrl,
+                                        GetRequestString(_methods[0], KS_ID.ToString(), string.Empty, string.Empty)
+                                            ).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -98,7 +99,21 @@ namespace WebToSamara.Controllers
         [Route("Main/GetTransportPosition/{HULLNO}")]
         public string GetTransportPosition(long HULLNO)
         {
-            throw new NotImplementedException();
+            var client = new HttpClient();
+
+            var response = client.PostAsync(
+                                        Configuration.RequestUrl,
+                                        GetRequestString(_methods[2], string.Empty, HULLNO.ToString(), string.Empty)
+                                            ).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var respString = response.Content.ReadAsStringAsync().Result;
+                var transportPosition = JsonConvert.DeserializeObject<TransportPosition>(respString);
+
+                return JsonConvert.SerializeObject(new { isSuccess = true, data = transportPosition });
+            }
+
+            return JsonConvert.SerializeObject(new { isSuccess = false, errorCode = response.StatusCode });
         }
 
         public IActionResult Index()

@@ -3,6 +3,8 @@ using WebToSamara.Models;
 using WebToSamara.Common;
 using System.Text;
 using System.Security.Cryptography;
+using Newtonsoft.Json;
+using System.Web;
 
 namespace WebToSamara.Controllers
 {
@@ -50,6 +52,36 @@ namespace WebToSamara.Controllers
             };
 
             return new FormUrlEncodedContent(body);
+        }
+
+        [Route("Main/Route/{KR_ID}&{HULLNO}")]
+        public IActionResult Route()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("Main/GetStops")]
+        public string GetStops()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("Main/GetSchedule/{KS_ID}")]
+        public string GetSchedule(long KS_ID)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("Main/GetRoute/{KR_ID}")]
+        public string GetRoute(long KR_ID)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("Main/GetTransportPosition/{HULLNO}")]
+        public string GetTransportPosition(long HULLNO)
+        {
+            throw new NotImplementedException();
         }
 
         public IActionResult Index()

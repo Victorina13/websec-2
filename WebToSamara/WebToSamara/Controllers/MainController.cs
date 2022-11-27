@@ -69,7 +69,24 @@ namespace WebToSamara.Controllers
         [Route("Main/GetSchedule/{KS_ID}")]
         public string GetSchedule(long KS_ID)
         {
-            throw new NotImplementedException();
+            var client = new HttpClient();
+
+            var response = client.PostAsync(
+                            Configuration.RequestUrl,
+                            GetRequestString(_methods[0], KS_ID.ToString(), string.Empty, string.Empty)).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var respString = response.Content.ReadAsStringAsync().Result;
+                var arrival = JsonConvert.DeserializeObject<Arrival>(respString)!;
+                foreach (var transport in arrival.arrival)
+                {
+                    transport.NextStopName = HttpUtility.UrlDecode(transport.NextStopName);
+                    transport.Type = HttpUtility.UrlDecode(transport.Type);
+                }
+                return JsonConvert.SerializeObject(new { isSuccess = true, data = arrival });
+            }
+            return JsonConvert.SerializeObject(new { isSuccess = false, errorCode = response.StatusCode });
         }
 
         [Route("Main/GetRoute/{KR_ID}")]

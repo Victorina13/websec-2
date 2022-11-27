@@ -16,7 +16,7 @@ namespace WebToSamara.Models
         private void LoadFromXml()
         {
             XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(@"C:\Users\iru\source\repos\websec-2\classifiers\routesAndStopsCorrespondence.xml");
+            xDoc.Load(@"Classifiers\routesAndStopsCorrespondence.xml");
             XmlElement? xRoot = xDoc.DocumentElement;
             if (xRoot != null)
             {

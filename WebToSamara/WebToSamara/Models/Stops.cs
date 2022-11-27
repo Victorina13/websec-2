@@ -8,14 +8,13 @@ namespace WebToSamara.Models
         public Stops()
         {
             StopsList = new List<Stop>();
-            this.LoadFromXml();
         }
 
         public Stops(List<Stop> stopsList)
         {
             StopsList = stopsList;
         }
-        private void LoadFromXml()
+        public void LoadFromXml()
         {
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(@"Classifiers\stops.xml");

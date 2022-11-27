@@ -5,6 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 using System.Web;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace WebToSamara.Controllers
 {
@@ -24,6 +25,7 @@ namespace WebToSamara.Controllers
         {
             _logger = logger;
             StopsObj = new Stops();
+            StopsObj.LoadFromXml();
             RoutesObj = new Routes();
             var config = configuration.GetSection("Configuration");
             Configuration = new WebConfig(config.GetValue<string>("clientId"), config.GetValue<string>("os"), config.GetValue<string>("secret_key"), config.GetValue<string>("requestUrl"));
@@ -64,6 +66,67 @@ namespace WebToSamara.Controllers
         {
             return JsonConvert.SerializeObject(new { isSuccess = true, data = StopsObj.StopsList });
         }
+
+        [Route("Main/GetFavorites")]
+        public string GetFavorites()
+        {
+            try
+            {
+                Stops? favorites;
+                using (var reader = new StreamReader("favorites.json"))
+                {
+                    favorites = JsonConvert.DeserializeObject<Stops>(reader.ReadToEnd());
+                    if (favorites == null || favorites.StopsList.Count == 0)
+                    {
+                        favorites = new Stops();
+                        favorites.StopsList.Clear();
+                    }
+                    return JsonConvert.SerializeObject(new
+                    {
+                        isSuccess = true,
+                        data = favorites
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [Route("Main/AddToFavorite/{KS_ID}")]
+        public string AddToFavorite(long KS_ID)
+        {
+            try
+            {
+                Stops? favorites;
+                using (var reader = new StreamReader("favorites.json"))
+                {
+                    favorites = JsonConvert.DeserializeObject<Stops>(reader.ReadToEnd());
+                }
+                if (favorites == null || favorites.StopsList.Count == 0)
+                {
+                    favorites = new Stops();
+                    favorites.StopsList.Clear();
+                    favorites.StopsList.Add(StopsObj.StopsList.First(x => x.KS_ID == KS_ID));
+                }
+                else
+                {
+                    favorites.StopsList.Add(StopsObj.StopsList.First(x => x.KS_ID == KS_ID));
+                }
+                using (var writer = new StreamWriter("favorites.json"))
+                {
+                    writer.Write(JsonConvert.SerializeObject(favorites));
+                }
+                return JsonConvert.SerializeObject(new { isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { isSuccess = false, error = ex.Message });
+            }
+        }
+
+
 
         [Route("Main/GetSchedule/{KS_ID}")]
         public string GetSchedule(long KS_ID)

@@ -112,7 +112,15 @@ namespace WebToSamara.Controllers
                 }
                 else
                 {
-                    favorites.StopsList.Add(StopsObj.StopsList.First(x => x.KS_ID == KS_ID));
+                    Stop stop = StopsObj.StopsList.First(x => x.KS_ID == KS_ID);
+                    if (!favorites.StopsList.Any(x => x.KS_ID == KS_ID))
+                    {
+                        favorites.StopsList.Add(stop);
+                    }
+                    else
+                    {
+                        throw new Exception("Остановка уже добавлена в избранные!");
+                    }
                 }
                 using (var writer = new StreamWriter("favorites.json"))
                 {
@@ -126,6 +134,43 @@ namespace WebToSamara.Controllers
             }
         }
 
+        [Route("Main/DeleteFromFavorite/{KS_ID}")]
+        public string DeleteFromFavorite(long KS_ID)
+        {
+            try
+            {
+                Stops? favorites;
+                using (var reader = new StreamReader("favorites.json"))
+                {
+                    favorites = JsonConvert.DeserializeObject<Stops>(reader.ReadToEnd());
+                }
+                if (favorites == null || favorites.StopsList.Count == 0)
+                {
+                    throw new Exception("Список избранных остановок пуст!");
+                }
+                else
+                {
+                    Stop stop = StopsObj.StopsList.First(x => x.KS_ID == KS_ID);
+                    if (favorites.StopsList.Any(x => x.KS_ID == KS_ID))
+                    {
+                        favorites.StopsList.RemoveAt(favorites.StopsList.FindIndex(x => x.KS_ID == KS_ID));
+                    }
+                    else
+                    {
+                        throw new Exception("Остановка не была добавлена в избранные!");
+                    }
+                }
+                using (var writer = new StreamWriter("favorites.json"))
+                {
+                    writer.Write(JsonConvert.SerializeObject(favorites));
+                }
+                return JsonConvert.SerializeObject(new { isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { isSuccess = false, error = ex.Message });
+            }
+        }
 
 
         [Route("Main/GetSchedule/{KS_ID}")]

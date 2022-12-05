@@ -14,9 +14,9 @@ function initRoute(Route) {
     console.log(ROUTE);
     let htmlForDataList = "";
     $("#routeName").html(`${Route.TransportTypeObj.Title} №${Route.Number}`);
-    $("#endStartRoute").html(`${Route.Stops[0].Title} ${Route.Stops[Route.Stops.length - 1].Title}`);
+    $("#endStartRoute").html(`${Route.Stops[0].Title} - ${Route.Stops[Route.Stops.length - 1].Title}`);
     for (let i = 0; i < Route.Stops.length; i++) {
-        htmlForDataList += `<p id="${Route.Stops[i].KS_ID}">${Route.Stops[i].Title}</p>`;
+        htmlForDataList += `<div id="${Route.Stops[i].KS_ID}" class="stop-on-route prev-route border-radiused"><div class="stop-name other-text">${Route.Stops[i].Title}</div></div>`;
     };
     $("#stopsList").html(htmlForDataList);
 }
@@ -24,10 +24,12 @@ function initRoute(Route) {
 function initTransportPosition(transportPosition) {
     let near = "Подъезжает";
     for (let i = 0; i < transportPosition.NextStops.length; i++) {
-        let tmpHtml = $(`#${transportPosition.NextStops[i].KS_ID}`).text();
+        let tmpHtml = $(`#${transportPosition.NextStops[i].KS_ID}`).html();
         let time = Math.round(transportPosition.NextStops[i].Time / 60) < 1 ? near : Math.round(transportPosition.NextStops[i].Time / 60);
-        tmpHtml += ` ${time}`;
+        tmpHtml += `<div class="time other-text">${time}</div>`;
         $(`#${transportPosition.NextStops[i].KS_ID}`).html(tmpHtml);
+        $(`#${transportPosition.NextStops[i].KS_ID}`).removeClass("prev-route");
+        $(`#${transportPosition.NextStops[i].KS_ID}`).addClass("next-route");
     }
     //var posArray = $(`#${transportPosition.NextStops[0].KS_ID}`).offsetTop;
     let posGlobal = document.getElementById(`${transportPosition.NextStops[0].KS_ID}`).offsetTop;

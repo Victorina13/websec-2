@@ -1,10 +1,113 @@
-﻿.favStarIcon {
-    width: 27px;
-    height: 27px;
-    margin: 0px 0px 0px 0px;
+﻿.zero-text {
+    font-size: 2.6vw !important;
+    margin-top: 2%;
 }
-.favStarButton{
-    width: 30px;
-    height: 30px;
-    padding: 0px;
+
+.first-text {
+    font-size: 2.3vw !important;
+}
+
+.second-text {
+    font-size: 1.6vw !important;
+}
+
+.other-text {
+    font-size: 1.0vw !important;
+}
+
+.mini-text {
+    font-size: .8vw !important;
+}
+
+.refresh-button {
+    margin-top: 1.0vw;
+}
+.input-stop {
+    width: 25vw;
+    height: 2vw;
+    padding-left: 1vw;
+    vertical-align: bottom;
+}
+
+.icon-button {
+    width: 2vw;
+    height: 2vw;
+    margin-right: 0.3vw;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.border-radiused {
+    border-radius: 10px;
+}
+
+.select-button {
+    margin-left: 0.3vw;
+    margin-right: 0.3vw;
+    height: 2vw;
+    vertical-align: bottom;
+}
+
+.stops-on-route {
+    margin-left: 10% !important;
+    overflow-y: scroll;
+    height: 35vw;
+    width: 45%;
+    border: 1px solid azure;
+    padding-right: 1%;
+}
+
+.stop-on-route {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.time {
+    margin: 0 3% 0 auto;
+}
+
+.stop-name {
+    margin: 0 0 auto 3%;
+}
+
+.next-route {
+    background-color: lightgreen;
+}
+
+.prev-route {
+    background-color: lightgray;
+    opacity: 60%;
+}
+
+.legend {
+    width: 45%;
+    margin-left: 10% !important;
+    padding-left: 3%;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+.legend-item-color {
+    border: 1px solid gray;
+    width: 1.0vw;
+    height: 1.0vw;
+}
+
+.color-next {
+    background-color: #90ee90;
+}
+
+.color-prev {
+    background-color: #e5e5e5;
+}
+
+.legend > * {
+    display: inline-block;
+}
+.legend-item > * {
+    display: inline-block;
 }

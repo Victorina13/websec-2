@@ -1,8 +1,19 @@
 ﻿<div id="mainDiv">
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/Route.js"></script>
-    <h1 id="routeName"></h1>
-    <h1 id="endStartRoute"></h1>
-    <div id="stopsList" style="overflow-y: scroll; height: 500px;">
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <h1 id="routeName" class="first-text"></h1>
+    <h2 id="endStartRoute" class="second-text">Направление:</h2>
+    <div id="legend" class="legend">
+        <div class="legend-item">
+            <div class="legend-item-color color-prev"></div>
+            <div class="legend-item-text other-text">Предыдущие</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-item-color color-next"></div>
+            <div class="legend-item-text other-text">Следующие</div>
+        </div>
+    </div>
+    <div id="stopsList" class="stops-on-route">
     </div>
 </div>

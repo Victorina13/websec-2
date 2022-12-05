@@ -2,24 +2,30 @@
 <script src="~/js/index.js"></script>
 <link rel="stylesheet" href="~/css/styles.css" />
 <div>
-    <h1> ПРИБЫВАЛКА  </h1>
+    <h1 class="zero-text"> ПРИБЫВАЛКА  </h1>
     <br />
-    <h2>Выберите остановку: </h2>
     <table>
         <tr>
             <td>
                 <div id="viewInput">
-                    <input id="inputStop" name="inputStop" list="stops" />
+                    <input id="inputStop" placeholder="Выберите остановку" class="input-stop border-radiused other-text" name="inputStop" list="stops" />
                 </div>
             </td>
             <td>
-                <button id="selectStop" type="button">Выбрать</button>
+                <button id="selectStop" class="select-button border-radiused other-text" type="button">Выбрать</button>
             </td>
             <td>
-                <button id="addToFavorite" type="button" class="favStarButton"><img class="favStarIcon" src="~/images/star-icon.png" /></button>
+                <input type="image" src="~/images/star-icon.png" id="addToFavorite" type="button" class="icon-button border-radiused other-text" />
+            </td><td>
+                <input type="image" src="~/images/star-icon2.png" id="deleteFromFavorite" type="button" class="icon-button border-radiused other-text" />
             </td>
             <td>
-                <button id="changeBetweenAllAndFav" type="button">Показать избранные</button>
+                <button id="changeBetweenAllAndFav" class="border-radiused select-button other-text" type="button">Показать избранные</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="image" src="~/images/refresh-icon.png" id="refresh" type="button" class="icon-button border-radiused refresh-button" onclick="getSchedule(true)" />
             </td>
         </tr>
     </table>

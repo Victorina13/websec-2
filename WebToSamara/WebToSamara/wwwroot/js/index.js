@@ -9,6 +9,7 @@ $(document).ready(function () {
     $("#addToFavorite").on("click", function () { actionWithFavorite(true) });
     $("#deleteFromFavorite").on("click", function () { actionWithFavorite(false) });
     $("#changeBetweenAllAndFav").on("click", function () { getFavorites() });
+    $("#deleteFromFavorite").hide();
 });
 
 function actionWithFavorite(isAdd) {
@@ -19,82 +20,64 @@ function actionWithFavorite(isAdd) {
     let infoStopSplitted = selectedStop.split(" (");
     let stopTitle = infoStopSplitted[0];
     let stopDirection = infoStopSplitted[1].substring(0, infoStopSplitted[1].length - 1);
-    let filterArr = Object.values(globalStopsList).filter(stop => stop.Title == stopTitle && stop.Direction == stopDirection);
+    let filterArr = Object.values(globalStopsList).filter(stop => (stop.Title == stopTitle && stop.Direction == stopDirection) || (stop.Title.includes(stopTitle) && stop.Direction.includes(stopDirection)));
     if (filterArr.length == 0) {
         alert("Остановка не выбрана или указано неверное название!");
         return;
     }
+    let favorites = JSON.parse(localStorage.getItem("favorites"));
+    favorites = favorites == null ? [] : favorites;
+    let index = favorites.findIndex(f => f.KS_ID == filterArr[0].KS_ID);
     if (isAdd) {
-        $.ajax({
-            url: `/Main/AddToFavorite/${filterArr[0].KS_ID}`,
-            method: "get",
-            dataType: "html",
-            success: function (data) {
-                let response = JSON.parse(data);
-                if (response.isSuccess) {
-                    alert("Остановка добавлена в избранные!");
-                }
-                else {
-                    alert(response.error);
-                }
-            }
-        })
+        if (index == -1) {
+            favorites.push(filterArr[0]);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+            alert("Остановка успешно добавлена в избранные!");
+        }
+        else {
+            alert("Остановка уже добавлена в избранные!");
+        }
     }
     else {
-        $.ajax({
-            url: `/Main/DeleteFromFavorite/${filterArr[0].KS_ID}`,
-            method: "get",
-            dataType: "html",
-            success: function (data) {
-                let response = JSON.parse(data);
-                if (response.isSuccess) {
-                    alert("Остановка удалена из избранных!");
-                }
-                else {
-                    alert(response.error);
-                }
-            }
-        })
+        if (index == -1) {
+            alert("Остановки нет в избранных!");
+        }
+        else {
+            favorites.splice(index, 1);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+            initFavorite(favorites);
+            alert("Остановка успешно удалена из избранных!");
+        }
     }
-    
+    $("#inputStop").val("");
 }
 
 function getFavorites() {
     if (isAll) {
         isAll = false;
         $("#addToFavorite").hide();
+        $("#deleteFromFavorite").show()
         $("#changeBetweenAllAndFav").html("Показать все");
-        $.ajax({
-            url: `/Main/GetFavorites`,
-            method: "get",
-            dataType: "html",
-            success: function (data) {
-                let response = JSON.parse(data);
-                if (response.isSuccess) {
-                    initFavorite(response.data);
-                }
-                else {
-                    initError(response);
-                }
-            }
-        })
+        let favorites = JSON.parse(localStorage.getItem("favorites"));
+        favorites = favorites == null ? [] : favorites;
+        initFavorite(favorites);
     }
     else {
         isAll = true;
         $("#addToFavorite").show();
+        $("#deleteFromFavorite").hide()
         $("#changeBetweenAllAndFav").html("Показать избранные");
         initStopsList(null);
     }
     $("#inputStop").val("");
 }
 
-function initFavorite(data) {
+function initFavorite(favs) {
     htmlString = "";
-    for (let i = 0; i < Object.keys(data.StopsList).length; ++i) {
-        htmlString += `<option>${data.StopsList[i].Title} (${data.StopsList[i].Direction})</option>`;
+    for (let i = 0; i < favs.length; ++i) {
+        htmlString += `<option>${favs[i].Title} (${favs[i].Direction})</option>`;
     }
     $("#stops").html(htmlString);
-
 }
 
 function initError(response) {
